@@ -1,0 +1,74 @@
+timestamp  hour  ...  ramp_rate_mw  mcp_inr_kwh
+0 2026-03-01 00:00:00  0.00  ...  23031.854034    18.000000
+1 2026-03-01 00:15:00  0.25  ...   -412.679844    13.766521
+2 2026-03-01 00:30:00  0.50  ...    429.099992    18.000000
+3 2026-03-01 00:45:00  0.75  ...    -60.280921    14.206531
+4 2026-03-01 01:00:00  1.00  ...   -768.751303    13.402078
+
+[5 rows x 8 columns]
+
+Dataset summary:
+       total_demand_mw     solar_mw  ...  ramp_rate_mw  mcp_inr_kwh
+count      2880.000000  2880.000000  ...   2880.000000  2880.000000
+mean      22355.441828  1926.935942  ...      8.203945    13.651848
+std        1659.368901  2991.473872  ...    634.345806     3.393818
+min       18524.690958     0.000000  ...  -1527.378333     5.773252
+25%       21243.913018     0.000000  ...   -329.906302    11.596703
+50%       22551.582392    91.150782  ...    -10.607375    13.515603
+75%       23457.238097  3192.962141  ...    305.941952    17.210096
+max       26006.871788  9147.940371  ...  23031.854034    18.000000
+
+[8 rows x 6 columns]
+Saved synthetic duck-curve chart to duck_curve_synthetic.png
+Saved MCP vs net-load chart to mcp_vs_net_load.png
+
+=== MERIT ORDER EFFECT REGRESSION RESULTS ===
+======================================================================================
+                         coef    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------------
+const                  7.2398      1.336      5.419      0.000       4.621       9.858
+re_penetration_pct    -0.0548      0.015     -3.703      0.000      -0.084      -0.026
+net_load_mw            0.0003   5.89e-05      5.699      0.000       0.000       0.000
+ramp_rate_mw           0.0028      0.001      2.254      0.024       0.000       0.005
+======================================================================================
+
+[Key Insight] Merit-order coefficient: beta_RE = -0.054785
+Interpretation: a negative beta_RE indicates that higher renewable penetration depresses MCP because zero-marginal-cost RE displaces thermal generation.
+Ramp-rate coefficient: beta_Ramp = 0.002807
+Interpretation: a positive beta_Ramp indicates that rapid increases in net load force expensive peaking generation and raise MCP.
+
+=== GRANGER CAUSALITY TEST (Ramp Rate -> MCP) ===
+Lag 1 (15 mins prior): p-value = 0.00000 -> Statistically Significant
+Lag 2 (30 mins prior): p-value = 0.00000 -> Statistically Significant
+Lag 3 (45 mins prior): p-value = 0.00000 -> Statistically Significant
+Lag 4 (60 mins prior): p-value = 0.00000 -> Statistically Significant
+
+Training Samples: 2304 time-blocks
+Testing Samples:  576 time-blocks
+Exogenous drivers: net_load_mw, re_penetration_pct, ramp_rate_mw
+Daily seasonal period: s = 96 (15-minute blocks per day)
+
+Fitting SARIMAX model with exogenous drivers...
+Model fitting complete.
+======================================================================================
+                         coef    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------------
+net_load_mw         6.927e-05   4.63e-05      1.496      0.135   -2.15e-05       0.000
+re_penetration_pct    -0.1076      0.010    -11.163      0.000      -0.127      -0.089
+ramp_rate_mw           0.0050   5.73e-05     86.423      0.000       0.005       0.005
+ar.L1                 -0.0328      0.021     -1.568      0.117      -0.074       0.008
+ma.L1                 -0.8379      0.014    -60.582      0.000      -0.865      -0.811
+ar.S.L96               0.1279      0.066      1.932      0.053      -0.002       0.258
+ma.S.L96              -0.0231      0.069     -0.337      0.736      -0.158       0.111
+sigma2                 2.2586      0.060     37.616      0.000       2.141       2.376
+======================================================================================
+
+=== SARIMAX FORECAST EVALUATION METRICS ===
+RMSE: ₹1.7763 / kWh
+MAE:  ₹1.4419 / kWh
+MAPE: 12.60%
+
+=== EVENING RAMP EVALUATION (17:00-22:00) ===
+Evening RMSE: ₹1.3842 / kWh
+Evening MAE:  ₹1.1169 / kWh
+Saved evening peak forecast chart to sarimax_evening_forecast.png
