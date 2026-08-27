@@ -1,17 +1,5 @@
 # Grid Economy Analysis Results
 
-This document captures the verified output from the synthetic duck-curve and market-price analysis run in the project workspace.
-
-## Verification run
-
-Command used:
-
-```powershell
-cd "c:\Users\Dell\OneDrive\Grid Economy"; .\.venv\Scripts\python.exe "c:/Users/Dell/OneDrive/Grid Economy/grid_economy_analysis.py"
-```
-
-Status: completed successfully with exit code 0.
-
 ## Key findings
 
 ### 1) Merit-order effect regression
