@@ -107,7 +107,7 @@ Using 15-minute time blocks ($s = 96$) and exogenous drivers (`net_load_mw`, `re
 
 
 * **Evening Peak Window Evaluation (17:00–22:00):** RMSE = ₹1.3842 / kWh, MAE = ₹1.1169 / kWh
-
+![SARIMAX Evening Forecast](sarimax_evening_forecast.png)
 
 
 ## Conclusion
