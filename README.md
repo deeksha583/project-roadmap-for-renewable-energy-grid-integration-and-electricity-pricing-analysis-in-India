@@ -93,14 +93,6 @@ $$\text{MCP} = \beta_0 + \beta_{\text{RE}}(\text{RE Penetration \%}) + \beta_{\t
 
 * **Ramp Rate ($\beta_{\text{Ramp}} = 0.0028$, $p = 0.024$):** A positive coefficient indicates that rapid surges in net load force expensive peaking units to turn on, raising price levels.
 
-## 1. Merit-Order Effect Regression
-
-Econometric modeling confirms a statistically significant merit-order effect driven by solar injection:
-
-$$MCP = \beta_0 + \beta_{RE}(RE\_Penetration) + \beta_{NetLoad}(Net\_Load) + \beta_{Ramp}(Ramp\_Rate)$$
-
-- **RE Penetration ($\beta_{RE} = -0.0548, p < 0.001$):** Higher renewable penetration depresses the Market Clearing Price by displacing higher marginal-cost thermal generation.
-- **Ramp Rate ($\beta_{Ramp} = 0.0028, p = 0.024$):** Rapid surges in net load force expensive peaking units to turn on, raising price levels.
 
 ![Market Clearing Price vs Net Load](mcp_vs_net_load.png)
 
